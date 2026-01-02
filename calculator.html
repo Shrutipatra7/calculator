@@ -5,7 +5,23 @@
 
 <style>
 :root{
-  --accent:#6366f1; /* change color here */
+  --accent:#6366f1;
+  --bg1:#667eea;
+  --bg2:#764ba2;
+  --calc-bg:rgba(255,255,255,0.15);
+  --screen-bg:rgba(255,255,255,0.8);
+  --btn-bg:rgba(255,255,255,0.7);
+  --text:#000;
+}
+
+/* Dark mode variables */
+.dark{
+  --bg1:#0f172a;
+  --bg2:#020617;
+  --calc-bg:rgba(30,41,59,0.9);
+  --screen-bg:#020617;
+  --btn-bg:#1e293b;
+  --text:#fff;
 }
 
 body{
@@ -14,17 +30,30 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(135deg,#667eea,#764ba2);
+  background:linear-gradient(135deg,var(--bg1),var(--bg2));
   font-family:Arial;
+  transition:0.3s;
 }
 
 .calculator{
-  background:rgba(255,255,255,0.15);
+  background:var(--calc-bg);
   backdrop-filter:blur(15px);
   padding:20px;
   border-radius:20px;
   width:270px;
   box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.toggle{
+  cursor:pointer;
+  font-size:22px;
 }
 
 .screen{
@@ -36,7 +65,8 @@ body{
   border:none;
   border-radius:12px;
   margin-bottom:15px;
-  background:rgba(255,255,255,0.8);
+  background:var(--screen-bg);
+  color:var(--text);
 }
 
 .buttons{
@@ -51,35 +81,27 @@ button{
   border-radius:15px;
   font-size:17px;
   cursor:pointer;
-  background:rgba(255,255,255,0.7);
+  background:var(--btn-bg);
+  color:var(--text);
   transition:0.2s;
 }
 
-button:hover{
-  transform:scale(1.05);
-}
+button:hover{ transform:scale(1.05); }
 
-.op{
-  background:var(--accent);
-  color:white;
-}
-
-.eq{
-  grid-column:span 2;
-  background:#22c55e;
-  color:white;
-}
-
-.clear{
-  background:#ef4444;
-  color:white;
-}
+.op{ background:var(--accent); color:white; }
+.eq{ grid-column:span 2; background:#22c55e; color:white; }
+.clear{ background:#ef4444; color:white; }
 </style>
 </head>
 
 <body>
 
 <div class="calculator">
+  <div class="top">
+    <strong>Calculator</strong>
+    <span class="toggle" onclick="toggleMode()">🌙</span>
+  </div>
+
   <input id="screen" class="screen" disabled>
 
   <div class="buttons">
@@ -110,11 +132,17 @@ button:hover{
 
 <script>
 let screen = document.getElementById("screen");
+let toggle = document.querySelector(".toggle");
 
 function add(v){ screen.value += v; }
 function calc(){ screen.value = eval(screen.value); }
 function clr(){ screen.value = ""; }
 function del(){ screen.value = screen.value.slice(0,-1); }
+
+function toggleMode(){
+  document.body.classList.toggle("dark");
+  toggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+}
 </script>
 
 </body>
